@@ -122,11 +122,6 @@ public class TanksGame extends Canvas implements Runnable{
         graphics.setColor(Color.black);
         //rectangle that fills game screen
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
-        
-        //temp for string to ensure working how wanted it to
-        graphics.setColor(Color.white);
-        graphics.drawString("This is temporary", 50, 50);
-        
         //players 1 and 2 
         player1.draw(graphics);
         player2.draw(graphics);
