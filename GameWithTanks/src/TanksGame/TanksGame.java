@@ -1,6 +1,26 @@
 /*
+ * Copyright (C) 2017 PC
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+
+
+/*
  * Author: Dustin Ledbetter
- * Date: 3/25/2017
+ * Date: 3/25/2017-?/?/2017
  * Purpose: A game for 2 players to play with tanks on one pc together.
  * This is to be updated version to my "shooter" I made several years ago. 
  * It is my way of refreshing myself with java and of making a better game.
@@ -40,7 +60,9 @@ public class TanksGame extends Canvas implements Runnable{
     private Graphics graphics = null;
     //creates toggle for starting and closing game
     private boolean running = false;
-    
+    //create players
+    private Player player1;
+    private Player player2;
     
     //constructor for JFrame
     public TanksGame(){
@@ -53,6 +75,12 @@ public class TanksGame extends Canvas implements Runnable{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //ensure game size parameters are not changed
         frame.setResizable(false);
+        //setting up objects for game
+        new BasicCache();
+        //create player objects
+        player1 = new Player(10, 150, 20, 90, BasicCache.player1);
+        player2 = new Player(570, 150, 20, 90, BasicCache.player2);
+        
         /* adding the canvas to frame so we can 
          * then update canvas and it will update in frame
          * throughout gameplay*/
@@ -94,9 +122,14 @@ public class TanksGame extends Canvas implements Runnable{
         graphics.setColor(Color.black);
         //rectangle that fills game screen
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
+        
         //temp for string to ensure working how wanted it to
         graphics.setColor(Color.white);
         graphics.drawString("This is temporary", 50, 50);
+        
+        //players 1 and 2 
+        player1.draw(graphics);
+        player2.draw(graphics);
     }
     
     
