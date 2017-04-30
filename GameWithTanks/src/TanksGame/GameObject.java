@@ -50,4 +50,7 @@ public abstract class GameObject {
     
     abstract void update();
     abstract void draw(Graphics g);
-}
+    
+    
+    
+}//end line
