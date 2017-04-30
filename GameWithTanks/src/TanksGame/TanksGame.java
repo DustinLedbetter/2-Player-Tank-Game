@@ -36,6 +36,8 @@ package TanksGame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
@@ -43,8 +45,9 @@ import javax.swing.JFrame;
  *Class: TanksGame
  * "extends Canvas" (allows for buffering of graphics on JFrame)
  * "implements Runnable" (allows us to not use full CPU managing FPS)
+ * "KeyListener" (catches user movements from keyboard)
  */
-public class TanksGame extends Canvas implements Runnable{
+public class TanksGame extends Canvas implements Runnable, KeyListener {
 
     //needed when using Canvas
     private static final long serialVersionUID = 1L;
@@ -64,6 +67,8 @@ public class TanksGame extends Canvas implements Runnable{
     private Player player1;
     private Player player2;
     
+    
+    
     //constructor for JFrame
     public TanksGame(){
         
@@ -80,7 +85,6 @@ public class TanksGame extends Canvas implements Runnable{
         //create player objects
         player1 = new Player(10, 150, 20, 90, BasicCache.player1);
         player2 = new Player(570, 150, 20, 90, BasicCache.player2);
-        
         /* adding the canvas to frame so we can 
          * then update canvas and it will update in frame
          * throughout gameplay*/
@@ -89,8 +93,15 @@ public class TanksGame extends Canvas implements Runnable{
         thread = new Thread(this);
         //ensuring frame is visible
         frame.setVisible(true);
+        //giving focus for events called
+        addKeyListener(this);
+        //requests focus to 'this' window so that the keyboard events are sent to 'this' instance/window. 
+        //Without this you would have to manually click on the Canvas (the game) for the keyboard events to register.
+        this.requestFocus();
     }
 
+    
+    
     //buffer for game
     public void paint(Graphics g){
         //make sure buffer is empty at game runtime
@@ -109,10 +120,15 @@ public class TanksGame extends Canvas implements Runnable{
         }
     }
     
-    //unfinished atm
+    
+    
+    //updates players as game plays
     public void update(){
-        
+        player1.update();
+        player2.update();
     }
+    
+    
     
     //where all game image components will be created
     public void render(){
@@ -129,7 +145,8 @@ public class TanksGame extends Canvas implements Runnable{
     
     
     
-        @Override //'The game' repeat this over and over as game plays
+    //'The game' repeat this over and over as game plays
+    @Override 
     public void run() {
         //game loop
         while(running){
@@ -151,16 +168,60 @@ public class TanksGame extends Canvas implements Runnable{
         }
     }
     
+    
+    
     //main
     public static void main(String[] args){
         
         //calling our game when run program
         new TanksGame();
+    } 
+    
+    
+    
+    //listener actions for player 1 and 2 if keys pressed
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //player 1 up and down pressed listener
+        if(e.getKeyCode() == KeyEvent.VK_W){
+            player1.up = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_S){
+            player1.down = true;
+        }
+        //player 2 up and down pressed listener
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            player2.up = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            player2.down = true;
+        }
     }
 
     
     
+    //listener actions for player 1 and 2 if keys released
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //player 1 up and down released listener
+        if(e.getKeyCode() == KeyEvent.VK_W){
+            player1.up = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_S){
+            player1.down = false;
+        }
+        //player 2 up and down released listener
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            player2.up = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            player2.down = false;
+        }
+    }
+
     
     
-    
-}
+    //unused
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+        
+
+}//end line

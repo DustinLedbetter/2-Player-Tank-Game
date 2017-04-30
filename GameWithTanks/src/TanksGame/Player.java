@@ -26,13 +26,28 @@ import java.awt.Image;
 
 public class Player extends GameObject{
 
+    //variables
+    public boolean up;
+    public boolean down;
+   
+   
+    
     public Player(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
     }
 
     @Override
     public void update() {
-       
+       //moving player object up
+       if(up) {
+           y--;
+           rect.y--;
+       }
+       //moving player object down
+       if(down) {
+           y++;
+           rect.y++;
+       }
     }
 
     @Override
@@ -40,4 +55,6 @@ public class Player extends GameObject{
        g.drawImage(img, x, y, width, height, null);
     }
     
-}
+    
+    
+}//end line
