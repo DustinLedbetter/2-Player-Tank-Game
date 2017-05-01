@@ -1,0 +1,22 @@
+for use in TanksGame.java in version 3
+-----------------------------------------------------------------------
+
+  //component to add to keyPressed(KeyEvent e)
+        
+        //player 1 keys pressed listeners (replace line already in file)
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            player2.left = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            player2.right = true;
+        }
+
+-----------------------------------------------------------------------        
+
+ //component to add to keyReleased(KeyEvent e)
+
+        //player 1 keys released listeners (replace line already in file)
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            player2.left = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            player2.right = false;
+        }

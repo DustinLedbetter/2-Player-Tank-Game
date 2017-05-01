@@ -1,0 +1,41 @@
+for use in player.java in version 3
+-----------------------------------------------------------------------
+//variables
+    public boolean left;
+    public boolean right;
+    public boolean rightUp;
+    public boolean rightDown;
+    public boolean leftUp;
+    public boolean leftDown;
+-----------------------------------------------------------------------
+//components to add to update()
+       //moving player object left
+       if(left) {
+          x--;
+           rect.x--;
+       }
+       //moving player object right
+       if(right) {
+           x++;
+           rect.x++;
+       }
+       //moving player object right and up
+       if(rightUp) {
+           x++; y++;
+           rect.x++; rect.y++;
+       }
+       //moving player object right and down
+       if(rightDown) {
+           x++; y--;
+           rect.x++; rect.y--;
+       }
+       //moving player object left and up
+       if(leftUp) {
+           x--; y++;
+           rect.x--; rect.y++;
+       }
+       //moving player object left and down
+       if(right) {
+           x--; y--;
+           rect.x--; rect.y--;
+       }
