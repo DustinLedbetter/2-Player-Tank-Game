@@ -15,46 +15,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
-
 package TanksGame;
 
 //imports
 import java.awt.Graphics;
 import java.awt.Image;
 
-public class Player extends GameObject{
+
+public class Bullet extends GameObject{
 
     //variables
-    public boolean up;
-    public boolean down;
-
-    //constructor for players
-    public Player(int x, int y, int width, int height, Image img) {
+    public int deltaX;
+    
+    //constructor for bullets
+    public Bullet(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
     }
 
     @Override
-    public void update() {
-       //moving player object up
-       if(up) {
-           y--;
-           rect.y--;
-       }
-       //moving player object down
-       if(down) {
-           y++;
-           rect.y++;
-       }
+    void update() {
+        x += deltaX;
+        rect.x += deltaX;
     }
 
     @Override
-    public void draw(Graphics g) {
-        //add image for player
-       g.drawImage(img, x, y, width, height, null);
+    void draw(Graphics g) {
+        //add image for bullet
+        g.drawImage(img, x, y, width, height, null);
     }
     
-    
-    
-}//end line
+}
