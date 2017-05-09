@@ -39,6 +39,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -66,8 +68,10 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     //create players
     private Player player1;
     private Player player2;
-    
-    
+    //create list to hold bullet objects to use
+    //CopyOnWriteArrayList is used because of concurrency issues 
+    //when adding and removing bullets
+    private List<Bullet> bullets = new CopyOnWriteArrayList<Bullet>();
     
     //constructor for JFrame
     public TanksGame(){
@@ -122,10 +126,15 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     
     
     
-    //updates players as game plays
+    //updates as game plays
     public void update(){
+        //update players
         player1.update();
         player2.update();
+        //draws every bullet that is added to the bullet array list
+        for(Bullet bullet : bullets){
+            bullet.update();
+        }
     }
     
     
@@ -141,6 +150,10 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //players 1 and 2 
         player1.draw(graphics);
         player2.draw(graphics);
+        //draws every bullet that is added to the bullet array list
+        for(Bullet bullet : bullets){
+            bullet.draw(graphics);
+        }
     }
     
     
@@ -193,7 +206,7 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
             player2.up = true;
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
             player2.down = true;
-        }
+        } 
     }
 
     
@@ -212,6 +225,22 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
             player2.up = false;
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
             player2.down = false;
+        }
+        //player 1 shooting bullet across screen when spacebar is pressed
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            Bullet bullet = new Bullet(player1.x+player1.width, (player1.y-2)+player1.height/2, 4, 4, BasicCache.bullet);
+            //set speed of bullets for player 1 ([slower 1]-[10 faster]) positive number
+            bullet.deltaX = 4;
+            //adding the bullet object into the bullet array list
+            bullets.add(bullet);
+        }
+        //player 2 shooting bullet across screen when enter is pressed
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            Bullet bullet = new Bullet(player2.x-4, (player2.y-2)+player2.height/2, 4, 4, BasicCache.bullet);
+            //set speed of bullets for player 2 ([slower -1]-[-10 faster]) negative numbers
+            bullet.deltaX = -4;
+            //adding the bullet object into the bullet array list
+            bullets.add(bullet);
         }
     }
 

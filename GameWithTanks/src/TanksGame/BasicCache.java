@@ -33,7 +33,7 @@ public class BasicCache {
     private static final String IMAGE_DIR = "Images/";
     public static Image player1;
     public static Image player2;
-    
+    public static Image bullet;
     
     public BasicCache(){
         load();//loads all cache, but can later break up to load sounds,images, etc 
@@ -42,6 +42,7 @@ public class BasicCache {
     public void load(){
         BasicCache.player1 = loadImage("player1.png");
         BasicCache.player2 = loadImage("player2.png");
+        BasicCache.bullet = loadImage("bullet.png");
     }
     
     private Image loadImage(String img){
