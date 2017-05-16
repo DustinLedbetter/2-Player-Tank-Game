@@ -51,6 +51,10 @@ import javax.swing.JFrame;
  */
 public class TanksGame extends Canvas implements Runnable, KeyListener {
 
+    //Object of TanksGame in virtual machine
+    //will give access to the object throughout all classes
+    //needed to have access to players in other classes for collision testing 
+    private static TanksGame INSTANCE;
     //needed when using Canvas
     private static final long serialVersionUID = 1L;
     //sets game screen width
@@ -150,6 +154,20 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //players 1 and 2 
         player1.draw(graphics);
         player2.draw(graphics);
+        //display health of players
+        graphics.setColor(Color.red);
+        graphics.drawString("Health: " + player1.health, 10, 15);
+        graphics.drawString("Health: " + player2.health, 530, 15);
+        //displays number of bullets on the screen at the moment
+        //by showing number of bullets in bullet list array
+        graphics.drawString("Bullets: " + bullets.size(), 275, 15);
+        //check to see if either player has won the game
+        if(player1.health <= 0){
+            //player 2 has won
+        }
+        if(player2.health <= 0){
+            //player 1 has won
+        }
         //draws every bullet that is added to the bullet array list
         for(Bullet bullet : bullets){
             bullet.draw(graphics);
@@ -187,7 +205,8 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     public static void main(String[] args){
         
         //calling our game when run program
-        new TanksGame();
+        //adding to INSTANCE so it isn't null at start of game
+        INSTANCE = new TanksGame();
     } 
     
     
@@ -244,6 +263,26 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         }
     }
 
+    
+    
+    //getter for the INSTANCE
+    public static TanksGame getInstance(){
+        //returns the current state of the game at this moment in time
+        return INSTANCE;
+    }
+    //getter for player 1
+    public Player getPlayer1(){
+        return player1;
+    }
+    //getter for player 2
+    public Player getPlayer2(){
+        return player2;
+    }
+    //getter for bullet list
+    public List<Bullet> getBullet(){
+        return bullets;
+    }
+    
     
     
     //unused

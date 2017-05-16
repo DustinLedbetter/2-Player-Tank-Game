@@ -29,10 +29,13 @@ public class Player extends GameObject{
     //variables
     public boolean up;
     public boolean down;
+    public int health;
 
     //constructor for players
     public Player(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
+        //set health at start of game
+        health = 10;
     }
 
     @Override

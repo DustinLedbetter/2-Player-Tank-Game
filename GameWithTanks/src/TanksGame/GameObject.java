@@ -38,7 +38,7 @@ public abstract class GameObject {
     protected Rectangle rect;
     
     //constructor
-    GameObject(int x, int y, int width, int height, Image img){
+    public GameObject(int x, int y, int width, int height, Image img){
         this.x = x;
         this.y = y;
         this.width = width;
