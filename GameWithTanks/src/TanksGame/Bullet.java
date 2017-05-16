@@ -33,15 +33,60 @@ public class Bullet extends GameObject{
     }
 
     @Override
-    void update() {
+    public void update() {
         x += deltaX;
         rect.x += deltaX;
+        
+        //testing collision for if bullets have hit players. 
+        //If they have then they need to be removed from bullet list
+        //players health has to be lowered as well
+        
+        //(get INSTANCE of game, check if player 1 has bullet in it's rect)
+        if(TanksGame.getInstance().getPlayer1().rect.contains(this.rect)){
+            //if hit player 1 we need to remove the bullet from list
+            removeBullet();
+            //System.out.println("Player 2 bullet has hit Player 1");
+            //lower the player 1's health by 1
+            TanksGame.getInstance().getPlayer1().health--;
+            
+        //(get INSTANCE of game, check if player 1 has bullet in it's rect)
+        } else if (TanksGame.getInstance().getPlayer2().rect.contains(this.rect)){
+            //if hit player 1 we need to remove the bullet from list
+            removeBullet();
+            //System.out.println("Player 1 bullet has hit Player 2");
+            //lower the player 2's health by 1
+            TanksGame.getInstance().getPlayer2().health--;
+        }
+        
+        
+        
+        
+        //checking to see if bullets have gone off of screen
+        //if it is greater than zero player 1 is shooting
+        if(deltaX > 0){
+            if(x > TanksGame.getInstance().getWidth() + 50){
+                removeBullet();
+            }
+        }
+        //if it is less than zero player 2 is shooting
+        else if(deltaX < 0){
+            if(x < -50){
+                removeBullet();
+            }
+        }
     }
 
     @Override
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         //add image for bullet
         g.drawImage(img, x, y, width, height, null);
     }
     
-}
+    //method to remove bullet from game
+    private void removeBullet(){
+        TanksGame.getInstance().getBullet().remove(this);
+    }
+    
+    
+    
+}//end line
