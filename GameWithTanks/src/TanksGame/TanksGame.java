@@ -156,8 +156,8 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         player2.draw(graphics);
         //display health of players
         graphics.setColor(Color.red);
-        graphics.drawString("Health: " + player1.health, 10, 15);
-        graphics.drawString("Health: " + player2.health, 530, 15);
+        graphics.drawString("P1 Health: " + player1.health, 10, 15);
+        graphics.drawString("P2 Health: " + player2.health, 513, 15);
         //displays number of bullets on the screen at the moment
         //by showing number of bullets in bullet list array
         graphics.drawString("Bullets: " + bullets.size(), 275, 15);
@@ -203,7 +203,6 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     
     //main
     public static void main(String[] args){
-        
         //calling our game when run program
         //adding to INSTANCE so it isn't null at start of game
         INSTANCE = new TanksGame();

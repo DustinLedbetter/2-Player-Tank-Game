@@ -42,13 +42,17 @@ public class Player extends GameObject{
     public void update() {
        //moving player object up
        if(up) {
+           if(y != 17){
            y--;
            rect.y--;
+           }
        }
        //moving player object down
        if(down) {
+           if(y != 480){
            y++;
            rect.y++;
+           }
        }
     }
 
