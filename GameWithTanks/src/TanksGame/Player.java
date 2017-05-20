@@ -27,39 +27,64 @@ import java.awt.Image;
 public class Player extends GameObject{
 
     //variables
+    private static final int SPEED = 5;
+    private static final int START_HEALTH = 10;
     public boolean up;
     public boolean down;
     public int health;
+    public int startX;
+    public int startY;
 
+    
+    
     //constructor for players
     public Player(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
         //set health at start of game
-        health = 10;
+        this.health = START_HEALTH;
+        //set starting X and Y coordinates of players
+        this.startX = x;
+        this.startY = y;
     }
 
+    
+    
     @Override
     public void update() {
        //moving player object up
        if(up) {
            if(y != 17){
-           y--;
-           rect.y--;
+           y -= SPEED;
+           rect.y -= SPEED;
            }
        }
        //moving player object down
        if(down) {
            if(y != 480){
-           y++;
-           rect.y++;
+           y += SPEED;
+           rect.y += SPEED;
            }
        }
     }
 
+    
+    
     @Override
     public void draw(Graphics g) {
         //add image for player
        g.drawImage(img, x, y, width, height, null);
+    }
+    
+    
+    
+    //used to reset game back to starting point
+    public void reset(){
+        //reset players to starting positions
+        this.x = startX;
+        this.y = startY;
+        this.rect.x = startX;
+        this.rect.y = startY;
+        this.health = START_HEALTH;
     }
     
     

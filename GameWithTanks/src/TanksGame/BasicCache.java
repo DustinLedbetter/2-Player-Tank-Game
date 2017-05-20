@@ -18,6 +18,7 @@
 
 
 
+
 package TanksGame;
 
 //imports
@@ -30,21 +31,28 @@ import javax.imageio.ImageIO;
 
 public class BasicCache {
     
+    //variables
     private static final String IMAGE_DIR = "Images/";
     public static Image player1;
     public static Image player2;
     public static Image bullet;
+
+    
     
     public BasicCache(){
         load();//loads all cache, but can later break up to load sounds,images, etc 
     }
     
+    
+    //used to load in images from IMAGE_DIR
     public void load(){
         BasicCache.player1 = loadImage("player1.png");
         BasicCache.player2 = loadImage("player2.png");
         BasicCache.bullet = loadImage("bullet.png");
     }
     
+    
+    //used to find the images in IMAGE_DIR
     private Image loadImage(String img){
         try {
            return ImageIO.read(new File(IMAGE_DIR + img));

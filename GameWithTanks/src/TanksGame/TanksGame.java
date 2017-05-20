@@ -76,6 +76,12 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     //CopyOnWriteArrayList is used because of concurrency issues 
     //when adding and removing bullets
     private List<Bullet> bullets = new CopyOnWriteArrayList<Bullet>();
+    //used to test if game is over or not
+    private boolean gameOver = false;
+    //used to tell who is winner to players
+    private int winner;
+    
+    
     
     //constructor for JFrame
     public TanksGame(){
@@ -91,8 +97,8 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //setting up objects for game
         new BasicCache();
         //create player objects
-        player1 = new Player(10, 150, 20, 90, BasicCache.player1);
-        player2 = new Player(570, 150, 20, 90, BasicCache.player2);
+        player1 = new Player(10, 200, 20, 90, BasicCache.player1);
+        player2 = new Player(565, 200, 20, 90, BasicCache.player2);
         /* adding the canvas to frame so we can 
          * then update canvas and it will update in frame
          * throughout gameplay*/
@@ -132,12 +138,27 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     
     //updates as game plays
     public void update(){
-        //update players
-        player1.update();
-        player2.update();
-        //draws every bullet that is added to the bullet array list
-        for(Bullet bullet : bullets){
-            bullet.update();
+        //update game as long as gameOver boolean is not true
+        if (!gameOver){
+            //update players
+            player1.update();
+            player2.update();
+            //draws every bullet that is added to the bullet array list
+            for(Bullet bullet : bullets){
+                bullet.update();
+            }
+        }
+        //check to see if either player has won the game
+        if(player1.health <= 0){
+            //player 2 has won
+            gameOver = true;
+            winner = 2;
+            
+        }
+        if(player2.health <= 0){
+            //player 1 has won
+            gameOver = true;
+            winner = 1;
         }
     }
     
@@ -148,12 +169,15 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //ensure screen gets cleared of what was there before
         graphics.clearRect(0, 0, WIDTH, HEIGHT);
         //set screen to be black (version 3 will be better background )
-        graphics.setColor(Color.black);
+        graphics.setColor(Color.darkGray);
         //rectangle that fills game screen
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
         //players 1 and 2 
         player1.draw(graphics);
         player2.draw(graphics);
+        //add line under health and bullet counters
+        graphics.setColor(Color.gray);
+        graphics.drawLine(0, 16, 600, 16);
         //display health of players
         graphics.setColor(Color.red);
         graphics.drawString("P1 Health: " + player1.health, 10, 15);
@@ -161,16 +185,16 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //displays number of bullets on the screen at the moment
         //by showing number of bullets in bullet list array
         graphics.drawString("Bullets: " + bullets.size(), 275, 15);
-        //check to see if either player has won the game
-        if(player1.health <= 0){
-            //player 2 has won
-        }
-        if(player2.health <= 0){
-            //player 1 has won
-        }
         //draws every bullet that is added to the bullet array list
         for(Bullet bullet : bullets){
             bullet.draw(graphics);
+        }
+        //what will be drawn when game over has been reached
+        if(gameOver){
+            graphics.setColor(Color.ORANGE);
+            graphics.drawString("Game Over", 270, 50);
+            graphics.drawString("Player " + winner + " has won!", 252, 65);
+            graphics.drawString("Press \"R\" to restart game or press \"ESCAPE\" to close game ", 135, 80);
         }
     }
     
@@ -213,18 +237,31 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
     //listener actions for player 1 and 2 if keys pressed
     @Override
     public void keyPressed(KeyEvent e) {
-        //player 1 up and down pressed listener
-        if(e.getKeyCode() == KeyEvent.VK_W){
-            player1.up = true;
-        } else if(e.getKeyCode() == KeyEvent.VK_S){
-            player1.down = true;
-        }
-        //player 2 up and down pressed listener
-        if(e.getKeyCode() == KeyEvent.VK_UP){
-            player2.up = true;
-        } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            player2.down = true;
-        } 
+        //allow game to continue unless game over boolean is true
+        if(!gameOver){
+           //player 1 up and down pressed listener
+           if(e.getKeyCode() == KeyEvent.VK_W){
+               player1.up = true;
+           } else if(e.getKeyCode() == KeyEvent.VK_S){
+               player1.down = true;
+           }
+           //player 2 up and down pressed listener
+           if(e.getKeyCode() == KeyEvent.VK_UP){
+               player2.up = true;
+           } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+               player2.down = true;
+           } 
+       } else{
+            //reset game
+            if(e.getKeyCode() == KeyEvent.VK_R){
+                resetGame();
+            //close game    
+            } else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                System.exit(1);
+            }
+            
+       }
+        
     }
 
     
@@ -244,24 +281,41 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
             player2.down = false;
         }
-        //player 1 shooting bullet across screen when spacebar is pressed
-        if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            Bullet bullet = new Bullet(player1.x+player1.width, (player1.y-2)+player1.height/2, 4, 4, BasicCache.bullet);
-            //set speed of bullets for player 1 ([slower 1]-[10 faster]) positive number
-            bullet.deltaX = 4;
-            //adding the bullet object into the bullet array list
-            bullets.add(bullet);
-        }
-        //player 2 shooting bullet across screen when enter is pressed
-        if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            Bullet bullet = new Bullet(player2.x-4, (player2.y-2)+player2.height/2, 4, 4, BasicCache.bullet);
-            //set speed of bullets for player 2 ([slower -1]-[-10 faster]) negative numbers
-            bullet.deltaX = -4;
-            //adding the bullet object into the bullet array list
-            bullets.add(bullet);
+        
+        //allow players to shoot bullets unless gameOver boolean is true
+        if(!gameOver){
+           //player 1 shooting bullet across screen when spacebar is pressed
+           if(e.getKeyCode() == KeyEvent.VK_SPACE){
+               Bullet bullet = new Bullet(player1.x+player1.width, (player1.y-2)+player1.height/2, 4, 4, BasicCache.bullet);
+               //set speed of bullets for player 1 ([slower 1]-[10 faster]) positive number
+               bullet.deltaX = 4;
+               //adding the bullet object into the bullet array list
+               bullets.add(bullet);
+           }
+           //player 2 shooting bullet across screen when enter is pressed
+           if(e.getKeyCode() == KeyEvent.VK_ENTER){
+               Bullet bullet = new Bullet(player2.x-4, (player2.y-2)+player2.height/2, 4, 4, BasicCache.bullet);
+               //set speed of bullets for player 2 ([slower -1]-[-10 faster]) negative numbers
+               bullet.deltaX = -4;
+               //adding the bullet object into the bullet array list
+               bullets.add(bullet);
+           }
         }
     }
 
+    
+    
+    //method for resetting the game
+    private void resetGame(){
+        //reset players back to start state
+        player1.reset();
+        player2.reset();
+        //clear bullets in array
+        bullets.clear();
+        //return game to not over state
+        gameOver = false;
+    }
+    
     
     
     //getter for the INSTANCE
@@ -269,14 +323,23 @@ public class TanksGame extends Canvas implements Runnable, KeyListener {
         //returns the current state of the game at this moment in time
         return INSTANCE;
     }
+    
+    
+    
     //getter for player 1
     public Player getPlayer1(){
         return player1;
     }
+    
+    
+    
     //getter for player 2
     public Player getPlayer2(){
         return player2;
     }
+    
+    
+    
     //getter for bullet list
     public List<Bullet> getBullet(){
         return bullets;
