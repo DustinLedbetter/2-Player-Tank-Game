@@ -27,11 +27,15 @@ public class Bullet extends GameObject{
     //variables
     public int deltaX;
     
+    
+    
     //constructor for bullets
     public Bullet(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
     }
 
+    
+    
     @Override
     public void update() {
         x += deltaX;
@@ -47,8 +51,7 @@ public class Bullet extends GameObject{
             removeBullet();
             //System.out.println("Player 2 bullet has hit Player 1");
             //lower the player 1's health by 1
-            TanksGame.getInstance().getPlayer1().health--;
-            
+            TanksGame.getInstance().getPlayer1().health--; 
         //(get INSTANCE of game, check if player 1 has bullet in it's rect)
         } else if (TanksGame.getInstance().getPlayer2().rect.contains(this.rect)){
             //if hit player 1 we need to remove the bullet from list
@@ -57,7 +60,6 @@ public class Bullet extends GameObject{
             //lower the player 2's health by 1
             TanksGame.getInstance().getPlayer2().health--;
         }
-        
         
         
         
@@ -76,11 +78,15 @@ public class Bullet extends GameObject{
         }
     }
 
+    
+    
     @Override
     public void draw(Graphics g) {
         //add image for bullet
         g.drawImage(img, x, y, width, height, null);
     }
+    
+    
     
     //method to remove bullet from game
     private void removeBullet(){
