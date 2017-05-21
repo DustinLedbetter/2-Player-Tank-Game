@@ -32,7 +32,7 @@ import javax.imageio.ImageIO;
 public class BasicCache {
     
     //variables
-    private static final String IMAGE_DIR = "Images/";
+    private static final String IMAGE_DIR = "images";
     public static Image player1;
     public static Image player2;
     public static Image bullet;
@@ -44,6 +44,7 @@ public class BasicCache {
     }
     
     
+    
     //used to load in images from IMAGE_DIR
     public void load(){
         BasicCache.player1 = loadImage("player1.png");
@@ -52,10 +53,12 @@ public class BasicCache {
     }
     
     
+    
     //used to find the images in IMAGE_DIR
     private Image loadImage(String img){
         try {
-           return ImageIO.read(new File(IMAGE_DIR + img));
+           return ImageIO.read(getClass().getResource("/"+IMAGE_DIR+"/"+img));
+           //return ImageIO.read(new File(IMAGE_DIR + img));
         } catch (IOException ex) {
             Logger.getLogger(BasicCache.class.getName()).log(Level.SEVERE, null, ex);
         }
