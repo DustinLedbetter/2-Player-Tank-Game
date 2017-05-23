@@ -1,0 +1,14 @@
+Author: Dustin Ledbetter
+Date: 5/19/2017
+Purpose: To hit the other player 10 times to win.
+-------------------------------------------------
+Player 1 (left side):
+Up: "W key"
+Down: "S key"
+Fire: "Spacebar key"
+-------------------------------------------------
+Player 2 (right side):
+Up: "Up arrow key"
+Down: "Down arrow key"
+Fire: "Enter key"
+-------------------------------------------------

@@ -1,0 +1,6 @@
+ideas for version 3:
+-adding side and diagonal movement
+-adding terrain
+-add start screen
+-add credit screen
+-add counter to keep track of wins each player has
