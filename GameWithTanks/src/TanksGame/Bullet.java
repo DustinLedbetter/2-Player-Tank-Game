@@ -15,6 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
+
+
+/*
+ * Author: Dustin Ledbetter
+ * Date: 3/25/2017-5/19/2017
+ * Purpose: A game for 2 players to play with tanks on one pc together.
+ * This is the updated version to my "shooter" I made several years ago. 
+ * It is my way of refreshing myself with java and of making a better game.
+ * This will be version 2 out of 3. 2 will be new mechanics.
+ * 3 will be enhanced and added controls for tanks and better background
+ * possible version 4 with multiple levels?
+ * Class: This file is the setup of bullets objects to be used in the game
+ */
 package TanksGame;
 
 //imports
